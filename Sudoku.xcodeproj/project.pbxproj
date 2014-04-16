@@ -18,6 +18,7 @@
 		552532F218FF0F8B00858D72 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 552532D118FF0F8B00858D72 /* Cocoa.framework */; };
 		552532FA18FF0F8B00858D72 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 552532F818FF0F8B00858D72 /* InfoPlist.strings */; };
 		552532FC18FF0F8B00858D72 /* SudokuTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 552532FB18FF0F8B00858D72 /* SudokuTests.m */; };
+		5525330718FF12C500858D72 /* SudokuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5525330618FF12C500858D72 /* SudokuView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +51,8 @@
 		552532F718FF0F8B00858D72 /* SudokuTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SudokuTests-Info.plist"; sourceTree = "<group>"; };
 		552532F918FF0F8B00858D72 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		552532FB18FF0F8B00858D72 /* SudokuTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SudokuTests.m; sourceTree = "<group>"; };
+		5525330518FF12C500858D72 /* SudokuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SudokuView.h; sourceTree = "<group>"; };
+		5525330618FF12C500858D72 /* SudokuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SudokuView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +120,8 @@
 			children = (
 				552532E318FF0F8B00858D72 /* SudokuAppDelegate.h */,
 				552532E418FF0F8B00858D72 /* SudokuAppDelegate.m */,
+				5525330518FF12C500858D72 /* SudokuView.h */,
+				5525330618FF12C500858D72 /* SudokuView.m */,
 				552532E618FF0F8B00858D72 /* MainMenu.xib */,
 				552532E918FF0F8B00858D72 /* Images.xcassets */,
 				552532D818FF0F8B00858D72 /* Supporting Files */,
@@ -255,6 +260,7 @@
 			files = (
 				552532DE18FF0F8B00858D72 /* main.m in Sources */,
 				552532E518FF0F8B00858D72 /* SudokuAppDelegate.m in Sources */,
+				5525330718FF12C500858D72 /* SudokuView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
