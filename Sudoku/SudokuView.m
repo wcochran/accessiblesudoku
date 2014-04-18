@@ -15,8 +15,13 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code here.
+        _selectedColumn = _selectedRow = -1;
     }
     return self;
+}
+
+-(void)awakeFromNib {
+    _selectedColumn = _selectedRow = -1;
 }
 
 #define MARGIN 3
@@ -28,6 +33,14 @@
     const CGFloat gridWidth = self.bounds.size.width - 2*MARGIN;
     const CGFloat gridHeight = self.bounds.size.height - 2*MARGIN;
 //    const CGPoint gridOrigin = NSMakePoint(MARGIN, MARGIN);
+    
+    if (_selectedRow >= 0 || _selectedColumn >= 0) {
+        [[NSColor lightGrayColor] setFill];
+        const CGSize cellSize = NSMakeSize(gridWidth/9, gridHeight/9);
+        [NSBezierPath fillRect:NSMakeRect(MARGIN + _selectedColumn*cellSize.width,
+                                          MARGIN + _selectedRow*cellSize.height,
+                                          cellSize.width, cellSize.height)];
+    }
 
     //
     // Stroke outer square.
@@ -63,6 +76,27 @@
         }
         x += cellWidth;
         y += cellHeight;
+    }
+}
+
+-(void)mouseDown:(NSEvent *)theEvent {
+    const CGPoint point = [theEvent locationInWindow];
+    const CGPoint viewPoint = [self convertPoint:point fromView:nil];
+    
+    const CGFloat gridWidth = self.bounds.size.width - 2*MARGIN;
+    const CGFloat gridHeight = self.bounds.size.height - 2*MARGIN;
+    
+    const CGPoint gridPoint = CGPointMake((viewPoint.x - MARGIN)*9/gridWidth,
+                                          (viewPoint.y - MARGIN)*9/gridHeight);
+    const int col = (int) floorf(gridPoint.x);
+    const int row = (int) floorf(gridPoint.y);
+    if (0 <= row && row < 9 && 0 <= col && col < 9) {
+        NSLog(@"row=%d, col=%d", row, col);
+        if (row != _selectedRow || col != _selectedColumn) {
+            _selectedColumn = col;
+            _selectedRow = row;
+            [self setNeedsDisplay:YES];
+        }
     }
 }
 

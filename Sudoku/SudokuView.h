@@ -10,4 +10,7 @@
 
 @interface SudokuView : NSView
 
+@property (readonly, nonatomic) NSInteger selectedRow;
+@property (readonly, nonatomic) NSInteger selectedColumn;
+
 @end

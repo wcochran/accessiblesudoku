@@ -11,6 +11,12 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application"/>
+        <customObject id="jxV-p2-LC5" customClass="SudokuController">
+            <connections>
+                <outlet property="buttonMatrix" destination="bMq-ok-Lcl" id="cim-gf-ZXh"/>
+                <outlet property="sudokuView" destination="FBz-l9-MY2" id="tBo-uS-BtW"/>
+            </connections>
+        </customObject>
         <customObject id="Voe-Tx-rLC" customClass="SudokuAppDelegate">
             <connections>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
@@ -690,66 +696,69 @@
                         </buttonCell>
                         <cells>
                             <column>
-                                <buttonCell type="square" title="1" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="XwY-We-Fvg">
+                                <buttonCell type="square" title="1" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" tag="1" imageScaling="proportionallyDown" inset="2" id="XwY-We-Fvg">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system" size="36"/>
                                 </buttonCell>
-                                <buttonCell type="square" title="6" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="HeV-vh-wDA">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system" size="36"/>
-                                </buttonCell>
-                            </column>
-                            <column>
-                                <buttonCell type="square" title="2" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Dap-8I-LeH">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system" size="36"/>
-                                </buttonCell>
-                                <buttonCell type="square" title="7" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="rk4-gr-RAm">
+                                <buttonCell type="square" title="6" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" tag="6" imageScaling="proportionallyDown" inset="2" id="HeV-vh-wDA">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system" size="36"/>
                                 </buttonCell>
                             </column>
                             <column>
-                                <buttonCell type="square" title="3" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="EQS-uS-eXg">
+                                <buttonCell type="square" title="2" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" tag="2" imageScaling="proportionallyDown" inset="2" id="Dap-8I-LeH">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system" size="36"/>
                                 </buttonCell>
-                                <buttonCell type="square" title="8" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="WGK-wL-TuI">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system" size="36"/>
-                                </buttonCell>
-                            </column>
-                            <column>
-                                <buttonCell type="square" title="4" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Pep-Zq-bNZ">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system" size="36"/>
-                                </buttonCell>
-                                <buttonCell type="square" title="9" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="VCc-Dt-WNj">
+                                <buttonCell type="square" title="7" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" tag="7" imageScaling="proportionallyDown" inset="2" id="rk4-gr-RAm">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system" size="36"/>
                                 </buttonCell>
                             </column>
                             <column>
-                                <buttonCell type="square" title="5" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="2E6-KO-vhn">
+                                <buttonCell type="square" title="3" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" tag="3" imageScaling="proportionallyDown" inset="2" id="EQS-uS-eXg">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system" size="36"/>
                                 </buttonCell>
-                                <buttonCell type="square" title="✎" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="XDA-0i-Xbe">
+                                <buttonCell type="square" title="8" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" tag="8" imageScaling="proportionallyDown" inset="2" id="WGK-wL-TuI">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system" size="36"/>
                                 </buttonCell>
                             </column>
                             <column>
-                                <buttonCell type="square" title="⌫" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Ira-Lq-LX5">
+                                <buttonCell type="square" title="4" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" tag="4" imageScaling="proportionallyDown" inset="2" id="Pep-Zq-bNZ">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system" size="36"/>
                                 </buttonCell>
-                                <buttonCell type="square" title="♘" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7IZ-8b-pdj">
+                                <buttonCell type="square" title="9" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" tag="9" imageScaling="proportionallyDown" inset="2" id="VCc-Dt-WNj">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system" size="36"/>
+                                </buttonCell>
+                            </column>
+                            <column>
+                                <buttonCell type="square" title="5" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" tag="5" imageScaling="proportionallyDown" inset="2" id="2E6-KO-vhn">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system" size="36"/>
+                                </buttonCell>
+                                <buttonCell type="square" title="✎" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" tag="11" imageScaling="proportionallyDown" inset="2" id="XDA-0i-Xbe">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system" size="36"/>
+                                </buttonCell>
+                            </column>
+                            <column>
+                                <buttonCell type="square" title="⌫" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" tag="10" imageScaling="proportionallyDown" inset="2" id="Ira-Lq-LX5">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system" size="36"/>
+                                </buttonCell>
+                                <buttonCell type="square" title="♘" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" tag="12" imageScaling="proportionallyDown" inset="2" id="7IZ-8b-pdj">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system" size="36"/>
                                 </buttonCell>
                             </column>
                         </cells>
+                        <connections>
+                            <action selector="buttonMatrixClicked:" target="jxV-p2-LC5" id="YG1-6Q-vmv"/>
+                        </connections>
                     </matrix>
                 </subviews>
             </view>
