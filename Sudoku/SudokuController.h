@@ -9,10 +9,19 @@
 #import <Foundation/Foundation.h>
 
 @class SudokuView;
+@class SudokuBoard;
 
 @interface SudokuController : NSObject
+
+@property (strong, nonatomic) SudokuBoard *sudokuBoard;
+
 @property (weak) IBOutlet SudokuView *sudokuView;
 @property (weak) IBOutlet NSMatrix *buttonMatrix;
 - (IBAction)buttonMatrixClicked:(NSMatrix *)sender;
+@property (unsafe_unretained) IBOutlet NSWindow *optionWindow;
+@property (unsafe_unretained) IBOutlet NSWindow *mainWindow;
+
+- (IBAction)cancelOptionWindow:(id)sender;
+- (IBAction)newGame:(id)sender;
 
 @end
