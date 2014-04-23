@@ -8,11 +8,27 @@
 
 #import "SudokuController.h"
 #import "SudokuBoard.h"
+#import "SudokuView.h"
 
 @implementation SudokuController
 
+-(void)loadNewGame:(int)gameLevel {  //0 => easy, .. 3 => expert
+    NSAssert(0 <= gameLevel && gameLevel < 4, @"invalid game level %d", gameLevel);
+    static NSString *levelNames[] = {
+        @"easy", @"simple", @"intermediate", @"expert"
+    };
+    NSString *fileName = [NSString stringWithFormat:@"sudoku-%@", levelNames[gameLevel]];
+    NSString *pathName = [[NSBundle mainBundle] pathForResource:fileName ofType:@"plist"];
+    NSArray *games = [NSArray arrayWithContentsOfFile:pathName];
+    NSString *game = [games objectAtIndex:arc4random() % games.count];
+    [self.sudokuBoard freshGame:game];
+    [self.sudokuView setNeedsDisplay:YES];
+}
+
 -(void)awakeFromNib {
     self.sudokuBoard = [[SudokuBoard alloc] init];
+    self.sudokuView.sudokuBoard = self.sudokuBoard;
+    [self loadNewGame:0]; // start with new easy puzzle
 }
 
 #define DELETE_TAG 10   // tag's defined in IB
@@ -40,6 +56,7 @@
     //
     // Create and load new game (level based on tag = 1,2,3,4)
     //
+    [self loadNewGame:(int)[sender tag] - 1];
     
     if ([self.optionWindow isVisible]) {
         [NSApp endSheet:self.optionWindow];

@@ -7,6 +7,7 @@
 //
 
 #import "SudokuView.h"
+#import "SudokuBoard.h"
 
 @implementation SudokuView
 
