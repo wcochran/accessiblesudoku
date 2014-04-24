@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5053"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -81,24 +81,28 @@
                                     <items>
                                         <menuItem title="New Easy Game" tag="1" id="bLv-eo-NUO">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <accessibility description="New Easy Game." help="New Easy Game."/>
                                             <connections>
                                                 <action selector="newGame:" target="jxV-p2-LC5" id="b7a-EE-pHo"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="New Simple Game" tag="2" id="e51-jl-o3k">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <accessibility description="New Simple Game." help="New Simple Game."/>
                                             <connections>
                                                 <action selector="newGame:" target="jxV-p2-LC5" id="7rI-OX-US0"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="New Intermediate Game" tag="3" id="yYu-ss-bUe">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <accessibility description="New Intermiediate Game." help="New Intermiediate Game."/>
                                             <connections>
                                                 <action selector="newGame:" target="jxV-p2-LC5" id="qji-yh-7Dn"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="New Expert Game" tag="4" id="j2v-IT-Pxh">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <accessibility description="New Expert Game." help="New Expert Game."/>
                                             <connections>
                                                 <action selector="newGame:" target="jxV-p2-LC5" id="bmD-s7-iso"/>
                                             </connections>
@@ -704,7 +708,7 @@
             <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="335" y="390" width="525" height="698"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1058"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1418"/>
             <view key="contentView" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="525" height="698"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -727,60 +731,72 @@
                                 <buttonCell type="square" title="1" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" tag="1" imageScaling="proportionallyDown" inset="2" id="XwY-We-Fvg">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system" size="36"/>
+                                    <accessibility description="1" help="Enter 1 into selected sudoku cell."/>
                                 </buttonCell>
                                 <buttonCell type="square" title="6" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" tag="6" imageScaling="proportionallyDown" inset="2" id="HeV-vh-wDA">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system" size="36"/>
+                                    <accessibility description="6" help="Enter 6 into selected sudoku cell."/>
                                 </buttonCell>
                             </column>
                             <column>
                                 <buttonCell type="square" title="2" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" tag="2" imageScaling="proportionallyDown" inset="2" id="Dap-8I-LeH">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system" size="36"/>
+                                    <accessibility description="2" help="Enter 2 into selected sudoku cell."/>
                                 </buttonCell>
                                 <buttonCell type="square" title="7" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" tag="7" imageScaling="proportionallyDown" inset="2" id="rk4-gr-RAm">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system" size="36"/>
+                                    <accessibility description="7" help="Enter 7 into selected sudoku cell."/>
                                 </buttonCell>
                             </column>
                             <column>
                                 <buttonCell type="square" title="3" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" tag="3" imageScaling="proportionallyDown" inset="2" id="EQS-uS-eXg">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system" size="36"/>
+                                    <accessibility description="3" help="Enter 3 into selected sudoku cell."/>
                                 </buttonCell>
                                 <buttonCell type="square" title="8" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" tag="8" imageScaling="proportionallyDown" inset="2" id="WGK-wL-TuI">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system" size="36"/>
+                                    <accessibility description="8" help="Enter 8 into selected sudoku cell."/>
                                 </buttonCell>
                             </column>
                             <column>
                                 <buttonCell type="square" title="4" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" tag="4" imageScaling="proportionallyDown" inset="2" id="Pep-Zq-bNZ">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system" size="36"/>
+                                    <accessibility description="4" help="Enter 4 into selected sudoku cell."/>
                                 </buttonCell>
                                 <buttonCell type="square" title="9" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" tag="9" imageScaling="proportionallyDown" inset="2" id="VCc-Dt-WNj">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system" size="36"/>
+                                    <accessibility description="9" help="Enter 9 into selected sudoku cell."/>
                                 </buttonCell>
                             </column>
                             <column>
                                 <buttonCell type="square" title="5" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" tag="5" imageScaling="proportionallyDown" inset="2" id="2E6-KO-vhn">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system" size="36"/>
+                                    <accessibility description="5" help="Enter 5 into selected sudoku cell."/>
                                 </buttonCell>
                                 <buttonCell type="square" title="✎" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" tag="11" imageScaling="proportionallyDown" inset="2" id="XDA-0i-Xbe">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
                                     <font key="font" metaFont="system" size="36"/>
+                                    <accessibility description="pencil" help="Toggle Pencil mode."/>
                                 </buttonCell>
                             </column>
                             <column>
                                 <buttonCell type="square" title="⌫" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" tag="10" imageScaling="proportionallyDown" inset="2" id="Ira-Lq-LX5">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system" size="36"/>
+                                    <accessibility description="delete" help="Edelete numner in selected sudoku cell."/>
                                 </buttonCell>
                                 <buttonCell type="square" title="♘" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" tag="12" imageScaling="proportionallyDown" inset="2" id="7IZ-8b-pdj">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system" size="36"/>
+                                    <accessibility description="options menu" help="Presents model option menu."/>
                                 </buttonCell>
                             </column>
                         </cells>
@@ -795,7 +811,7 @@
             <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="207" width="247" height="322"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1058"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1418"/>
             <view key="contentView" id="xq4-zb-fNy">
                 <rect key="frame" x="0.0" y="0.0" width="247" height="322"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -807,6 +823,7 @@
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <accessibility description="New Easy Game" help="New Easy Game"/>
                         <connections>
                             <action selector="newGame:" target="jxV-p2-LC5" id="OKv-FO-QPO"/>
                         </connections>
@@ -818,6 +835,7 @@
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <accessibility description="New Simple Game." help="New Simple Game."/>
                         <connections>
                             <action selector="newGame:" target="jxV-p2-LC5" id="fxC-YP-yAg"/>
                         </connections>
@@ -829,6 +847,7 @@
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <accessibility description="New Intermediate Game." help="New Intermediate Game."/>
                         <connections>
                             <action selector="newGame:" target="jxV-p2-LC5" id="KN8-Nv-QHU"/>
                         </connections>
@@ -840,6 +859,7 @@
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <accessibility description="New Expert Game." help="New Expert Game."/>
                         <connections>
                             <action selector="newGame:" target="jxV-p2-LC5" id="o2N-JC-9xM"/>
                         </connections>
@@ -851,6 +871,7 @@
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <accessibility description="Clear cells." help="Clear all user enter values."/>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vdG-AS-bHW">
                         <rect key="frame" x="14" y="80" width="219" height="32"/>
@@ -859,6 +880,7 @@
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <accessibility description="Clear Conflicting Cells." help="Clear all user values that are conflicting."/>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QvE-1X-HbI">
                         <rect key="frame" x="14" y="18" width="219" height="32"/>
@@ -870,6 +892,7 @@
 Gw
 </string>
                         </buttonCell>
+                        <accessibility description="Cancel." help="Dismiss options menu."/>
                         <connections>
                             <action selector="cancelOptionWindow:" target="jxV-p2-LC5" id="obp-Jb-LfK"/>
                         </connections>

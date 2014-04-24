@@ -80,6 +80,7 @@
     }
 }
 
+
 -(void)mouseDown:(NSEvent *)theEvent {
     const CGPoint point = [theEvent locationInWindow];
     const CGPoint viewPoint = [self convertPoint:point fromView:nil];
@@ -99,6 +100,116 @@
             [self setNeedsDisplay:YES];
         }
     }
+}
+
+#pragma mark - accessibility
+
+-(BOOL)accessibilityIsIgnored {
+    return NO;
+}
+
+//
+// Roles for grid
+// http://goo.gl/j71yTa
+//
+
+-(NSArray*)accessibilityAttributeNames {
+    static NSMutableArray *attributes = nil;
+    if (attributes == nil) {
+        attributes = [[super accessibilityAttributeNames] mutableCopy];
+        NSArray *appendedAttributes =
+        @[
+          NSAccessibilityChildrenAttribute,
+          NSAccessibilityColumnCountAttribute,
+          NSAccessibilityEnabledAttribute,
+          NSAccessibilityFocusedAttribute,
+          NSAccessibilityOrderedByRowAttribute,
+          // NSView : NSAccessibilityParentAttribute,
+          // NSView : NSAccessibilityPositionAttribute,
+          NSAccessibilityRoleAttribute,
+          NSAccessibilityRoleDescriptionAttribute,
+          NSAccessibilityRowCountAttribute,
+          NSAccessibilitySelectedChildrenAttribute,
+          // NSView : NSAccessibilitySizeAttribute,
+          // NSView : NSAccessibilityTopLevelUIElementAttribute,
+          NSAccessibilityVisibleChildrenAttribute,
+          // NSview  : NSAccessibilityWindowAttribute,
+          NSAccessibilityHelpAttribute
+          ];
+        for (NSString *attribute in appendedAttributes) {
+            if (![appendedAttributes containsObject:attribute]) {
+                [attributes addObject:attribute];
+            }
+        }
+    }
+    return attributes;
+}
+
+-(id)accessibilityAttributeValue:(NSString *)attribute {
+    id value = nil;
+    if ([attribute isEqualToString:NSAccessibilityChildrenAttribute]) {
+        // XXX value = array of 81 child elements
+    } else if ([attribute isEqualToString:NSAccessibilityColumnCountAttribute]) {
+        value = @(9);
+    } else if ([attribute isEqualToString:NSAccessibilityFocusedAttribute]) {
+        // XXXX
+    } else if ([attribute isEqualToString:NSAccessibilityOrderedByRowAttribute]) {
+        value = @(YES);
+    } else if ([attribute isEqualToString:NSAccessibilityParentAttribute]) {
+        // XXXX
+    } else if ([attribute isEqualToString:NSAccessibilityPositionAttribute]) {
+        // XXX
+    } else if ([attribute isEqualToString:NSAccessibilityRoleAttribute]) {
+        value = NSAccessibilityGridRole;
+    } else if ([attribute isEqualToString:NSAccessibilityRowCountAttribute]) {
+        value = @(9);
+    } else if ([attribute isEqualToString:NSAccessibilitySelectedChildrenAttribute]) {
+        // XXX
+    } else if ([attribute isEqualToString:NSAccessibilitySizeAttribute]) {
+        value = [NSValue valueWithSize:self.bounds.size];
+    } else if ([attribute isEqualToString:NSAccessibilityTopLevelUIElementAttribute]) {
+        // XXX
+    } else if ([attribute isEqualToString:NSAccessibilityVisibleChildrenAttribute]) {
+        // XXX
+    } else if ([attribute isEqualToString:NSAccessibilityWindowAttribute]) {
+        return self.window;
+    } else if ([attribute isEqualToString:NSAccessibilityHelpAttribute]) {
+        return @"Sudoku 9x9 grid";
+    }
+    if (value == nil) {
+        return [super accessibilityAttributeValue:attribute];
+    }
+    return value;
+}
+
+- (BOOL)accessibilityIsAttributeSettable:(NSString *)attribute {
+    return NO; // XXX
+}
+
+
+- (void)accessibilitySetValue:(id)value
+                 forAttribute:(NSString *)attribute {
+    
+}
+
+-(id)accessibilityHitTest:(NSPoint)point {
+    NSPoint windowPoint = [[self window] convertScreenToBase:point];
+    NSPoint viewPoint = [self convertPoint:windowPoint fromView:nil];
+    const CGFloat gridWidth = self.bounds.size.width - 2*MARGIN;
+    const CGFloat gridHeight = self.bounds.size.height - 2*MARGIN;
+    
+    const CGPoint gridPoint = CGPointMake((viewPoint.x - MARGIN)*9/gridWidth,
+                                          (viewPoint.y - MARGIN)*9/gridHeight);
+    const int col = (int) floorf(gridPoint.x);
+    const int row = (int) floorf(gridPoint.y);
+    if (0 <= row && row < 9 && 0 <= col && col < 9) {
+        // XXX return child element at (row,col)
+    }
+    return self;
+}
+
+- (id)accessibilityFocusedUIElement {
+    return self; // XXX
 }
 
 @end

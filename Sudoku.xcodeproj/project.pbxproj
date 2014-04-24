@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		55103A4619099811003A01F6 /* AccessibilitySudokuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 55103A4519099811003A01F6 /* AccessibilitySudokuCell.m */; };
 		552532D218FF0F8B00858D72 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 552532D118FF0F8B00858D72 /* Cocoa.framework */; };
 		552532DC18FF0F8B00858D72 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 552532DA18FF0F8B00858D72 /* InfoPlist.strings */; };
 		552532DE18FF0F8B00858D72 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 552532DD18FF0F8B00858D72 /* main.m */; };
@@ -38,6 +39,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		55103A4419099811003A01F6 /* AccessibilitySudokuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccessibilitySudokuCell.h; sourceTree = "<group>"; };
+		55103A4519099811003A01F6 /* AccessibilitySudokuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccessibilitySudokuCell.m; sourceTree = "<group>"; };
 		552532CE18FF0F8B00858D72 /* Sudoku.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sudoku.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		552532D118FF0F8B00858D72 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		552532D418FF0F8B00858D72 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -136,6 +139,8 @@
 				552532E418FF0F8B00858D72 /* SudokuAppDelegate.m */,
 				5525330518FF12C500858D72 /* SudokuView.h */,
 				5525330618FF12C500858D72 /* SudokuView.m */,
+				55103A4419099811003A01F6 /* AccessibilitySudokuCell.h */,
+				55103A4519099811003A01F6 /* AccessibilitySudokuCell.m */,
 				55795A241901B9AC00E71408 /* SudokuController.h */,
 				55795A251901B9AC00E71408 /* SudokuController.m */,
 				55D50FED1905AEE20088EFC6 /* SudokuBoard.h */,
@@ -289,6 +294,7 @@
 				552532E518FF0F8B00858D72 /* SudokuAppDelegate.m in Sources */,
 				55D50FEF1905AEE20088EFC6 /* SudokuBoard.m in Sources */,
 				5525330718FF12C500858D72 /* SudokuView.m in Sources */,
+				55103A4619099811003A01F6 /* AccessibilitySudokuCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
