@@ -8,6 +8,7 @@
 
 #import "SudokuView.h"
 #import "SudokuBoard.h"
+#import "AccessibilitySudokuCell.h"
 
 @implementation SudokuView
 
@@ -23,6 +24,20 @@
 
 -(void)awakeFromNib {
     _selectedColumn = _selectedRow = -1;
+}
+
+-(void)setSelectedRow:(NSInteger)selectedRow {
+    if (_selectedRow != selectedRow) {
+        _selectedRow = selectedRow;
+        [self setNeedsDisplay:YES];
+    }
+}
+
+-(void)setSelectedColumn:(NSInteger)selectedColumn {
+    if (_selectedColumn != selectedColumn) {
+        _selectedColumn = selectedColumn;
+        [self setNeedsDisplay:YES];
+    }
 }
 
 #define MARGIN 3
@@ -145,19 +160,36 @@
     return attributes;
 }
 
+-(NSArray*) accessibilityCells {
+    if (_accessibilityCells == nil) {
+        NSMutableArray *cells = [[NSMutableArray alloc] initWithCapacity:81];
+        for (int r = 0; r < 9; r++) {
+            for (int c = 0; c < 9; c++) {
+                AccessibilitySudokuCell *cell = [[AccessibilitySudokuCell alloc] initWithRow:r Column:c];
+                cell.sudokuBoard = self.sudokuBoard;
+                cell.parent = self;
+                cell.focused  = NO;
+                [cells addObject:cell];
+            }
+        }
+        _accessibilityCells = [NSArray arrayWithArray:cells];
+    }
+    return _accessibilityCells;
+}
+
 -(id)accessibilityAttributeValue:(NSString *)attribute {
     id value = nil;
     if ([attribute isEqualToString:NSAccessibilityChildrenAttribute]) {
-        // XXX value = array of 81 child elements
+        value = self.accessibilityCells;
     } else if ([attribute isEqualToString:NSAccessibilityColumnCountAttribute]) {
         value = @(9);
     } else if ([attribute isEqualToString:NSAccessibilityFocusedAttribute]) {
         // XXXX
     } else if ([attribute isEqualToString:NSAccessibilityOrderedByRowAttribute]) {
         value = @(YES);
-    } else if ([attribute isEqualToString:NSAccessibilityParentAttribute]) {
+    // XXX } else if ([attribute isEqualToString:NSAccessibilityParentAttribute]) {
         // XXXX
-    } else if ([attribute isEqualToString:NSAccessibilityPositionAttribute]) {
+    // XXX } else if ([attribute isEqualToString:NSAccessibilityPositionAttribute]) {
         // XXX
     } else if ([attribute isEqualToString:NSAccessibilityRoleAttribute]) {
         value = NSAccessibilityGridRole;
@@ -165,14 +197,14 @@
         value = @(9);
     } else if ([attribute isEqualToString:NSAccessibilitySelectedChildrenAttribute]) {
         // XXX
-    } else if ([attribute isEqualToString:NSAccessibilitySizeAttribute]) {
-        value = [NSValue valueWithSize:self.bounds.size];
-    } else if ([attribute isEqualToString:NSAccessibilityTopLevelUIElementAttribute]) {
+    // XXX } else if ([attribute isEqualToString:NSAccessibilitySizeAttribute]) {
+        // XXX value = [NSValue valueWithSize:self.bounds.size];
+    // XXX } else if ([attribute isEqualToString:NSAccessibilityTopLevelUIElementAttribute]) {
         // XXX
     } else if ([attribute isEqualToString:NSAccessibilityVisibleChildrenAttribute]) {
-        // XXX
-    } else if ([attribute isEqualToString:NSAccessibilityWindowAttribute]) {
-        return self.window;
+        value = self.accessibilityCells;
+    // XXX } else if ([attribute isEqualToString:NSAccessibilityWindowAttribute]) {
+        // XXX return self.window;
     } else if ([attribute isEqualToString:NSAccessibilityHelpAttribute]) {
         return @"Sudoku 9x9 grid";
     }
@@ -189,21 +221,20 @@
 
 - (void)accessibilitySetValue:(id)value
                  forAttribute:(NSString *)attribute {
-    
+    // XXX
 }
 
 -(id)accessibilityHitTest:(NSPoint)point {
-    NSPoint windowPoint = [[self window] convertScreenToBase:point];
-    NSPoint viewPoint = [self convertPoint:windowPoint fromView:nil];
+    const NSPoint windowPoint = [self.window convertScreenToBase:point];
+    const NSPoint viewPoint = [self convertPoint:windowPoint fromView:nil];
     const CGFloat gridWidth = self.bounds.size.width - 2*MARGIN;
     const CGFloat gridHeight = self.bounds.size.height - 2*MARGIN;
-    
     const CGPoint gridPoint = CGPointMake((viewPoint.x - MARGIN)*9/gridWidth,
                                           (viewPoint.y - MARGIN)*9/gridHeight);
     const int col = (int) floorf(gridPoint.x);
     const int row = (int) floorf(gridPoint.y);
     if (0 <= row && row < 9 && 0 <= col && col < 9) {
-        // XXX return child element at (row,col)
+        return self.accessibilityCells[row*9 + col];
     }
     return self;
 }
@@ -211,5 +242,23 @@
 - (id)accessibilityFocusedUIElement {
     return self; // XXX
 }
+
+-(CGPoint)screenPositionOfCellAtRow:(NSInteger)row  AndColumn:(NSInteger)col {
+    const CGFloat gridWidth = self.bounds.size.width - 2*MARGIN;
+    const CGFloat gridHeight = self.bounds.size.height - 2*MARGIN;
+    const CGSize cellSize = CGSizeMake(gridWidth/9, gridHeight/9);
+    const CGPoint viewPoint = CGPointMake(MARGIN + col*cellSize.width, MARGIN + row*cellSize.height);
+    const CGPoint windowPoint = [self convertPoint:viewPoint toView:nil];
+    const CGRect windowRect = CGRectMake(windowPoint.x, windowPoint.y, cellSize.width, cellSize.height);
+    const CGRect screenRect = [self.window convertRectToScreen:windowRect];
+    return screenRect.origin;
+}
+
+-(CGSize)screenSizeOfCell {
+    const CGFloat gridWidth = self.bounds.size.width - 2*MARGIN;
+    const CGFloat gridHeight = self.bounds.size.height - 2*MARGIN;
+    return CGSizeMake(gridWidth/9, gridHeight/9);
+}
+
 
 @end

@@ -12,9 +12,17 @@
 
 @interface SudokuView : NSView
 
-@property (readonly, nonatomic) NSInteger selectedRow;
-@property (readonly, nonatomic) NSInteger selectedColumn;
+@property (assign, nonatomic) NSInteger selectedRow;
+@property (assign, nonatomic) NSInteger selectedColumn;
 
 @property (weak, nonatomic) SudokuBoard *sudokuBoard;  // model (created in controller)
+
+@property (strong, nonatomic) NSArray *accessibilityCells;
+
+//
+// Methods needed by AccessibilitySudokuCell
+//
+-(CGPoint)screenPositionOfCellAtRow:(NSInteger)row  AndColumn:(NSInteger)col;
+-(CGSize)screenSizeOfCell;
 
 @end

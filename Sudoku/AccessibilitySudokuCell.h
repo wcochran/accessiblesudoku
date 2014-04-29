@@ -16,8 +16,9 @@
 @property (weak, nonatomic) SudokuBoard *sudokuBoard;
 @property (weak, nonatomic) SudokuView *parent; // parent accessibility element
 
-@property (assign, readonly) NSInteger row;
-@property (assign, readonly) NSInteger column;
+@property (assign, readonly, nonatomic) NSInteger row;
+@property (assign, readonly, nonatomic) NSInteger column;
+@property (assign, nonatomic) BOOL focused; // has keyboard focus?
 
 -(id)initWithRow:(NSInteger)row Column:(NSInteger)col;
 
