@@ -35,12 +35,36 @@
 #define PENCIL_TAG 11
 #define MENU_TAG 12
 
+-(BOOL)inPencilMode {
+    NSButtonCell *bcell = [self.buttonMatrix cellWithTag:PENCIL_TAG];
+    return bcell.state == NSOnState;
+}
+
 - (IBAction)buttonMatrixClicked:(NSMatrix *)sender {
     NSButtonCell *bcell = [sender selectedCell];
     NSLog(@"%d", (int) bcell.tag);
     
-    
-    if (bcell.tag == MENU_TAG) {
+    if (1 <= bcell.tag && bcell.tag <= 9 &&
+        self.sudokuView.selectedRow >= 0 && self.sudokuView.selectedColumn >= 0) {
+        const int row = (int) self.sudokuView.selectedRow;
+        const int col = (int) self.sudokuView.selectedColumn;
+        const int num = (int) bcell.tag;
+        if ([self.sudokuBoard numberAtRow:row Column:col] == 0) {
+            [self.sudokuBoard setNumber:num AtRow:row Column:col];
+            [self.sudokuView setNeedsDisplay:YES];
+        } else if ([self.sudokuBoard numberAtRow:row Column:col] == num) { // toggle => clear
+                [self.sudokuBoard setNumber:0 AtRow:row Column:col];
+                [self.sudokuView setNeedsDisplay:YES];
+        } // ignoring pencils (for now)
+    } else if (bcell.tag == DELETE_TAG) {
+        const int row = (int) self.sudokuView.selectedRow;
+        const int col = (int) self.sudokuView.selectedColumn;
+        if ([self.sudokuBoard numberAtRow:row Column:col] != 0) {
+            [self.sudokuBoard setNumber:0 AtRow:row Column:col];
+            [self.sudokuBoard clearAllPencilsAtRow:row Column:col];
+            [self.sudokuView setNeedsDisplay:YES];
+        } // ignoring pencils (for now)
+    } else if (bcell.tag == MENU_TAG) {
         [NSApp beginSheet:self.optionWindow modalForWindow:self.mainWindow modalDelegate:nil didEndSelector:NULL contextInfo:NULL];
     }
 }

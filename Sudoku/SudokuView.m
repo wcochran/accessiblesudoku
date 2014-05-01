@@ -112,7 +112,7 @@
     
     if (self.sudokuBoard != nil) {
         NSDictionary *textAttributes = @{NSFontAttributeName: [NSFont systemFontOfSize:30.0],
-                                         NSForegroundColorAttributeName : [NSColor blackColor]};
+                                         NSForegroundColorAttributeName : [NSColor blueColor]};
         NSDictionary *conflictingTextAttributes = @{NSFontAttributeName: [NSFont systemFontOfSize:30.0],
                                                     NSForegroundColorAttributeName : [NSColor redColor]};
         NSDictionary *fixedTextAttributes = @{NSFontAttributeName: [NSFont boldSystemFontOfSize:30.0],
@@ -156,7 +156,8 @@
                                           (viewPoint.y - MARGIN)*9/gridHeight);
     const int col = (int) floorf(gridPoint.x);
     const int row = (int) floorf(gridPoint.y);
-    if (0 <= row && row < 9 && 0 <= col && col < 9) {
+    if (![self.sudokuBoard numberIsFixedAtRow:row Column:col] &&
+        0 <= row && row < 9 && 0 <= col && col < 9) {
         NSLog(@"row=%d, col=%d", row, col);
         if (row != _selectedRow || col != _selectedColumn) {
             _selectedColumn = col;
