@@ -40,6 +40,19 @@
     }
 }
 
+-(void)selectNonFixedCell {
+    for (int row = 8; row >= 0; row--) {
+        for (int col = 0; col < 9; col++) {
+            if (![self.sudokuBoard numberIsFixedAtRow:row Column:col]) {
+                _selectedColumn = col;
+                _selectedRow = row;
+                return;
+            }
+        }
+    }
+    
+}
+
 #define MARGIN 3
 
 - (void)drawRect:(NSRect)dirtyRect
@@ -48,7 +61,10 @@
     
     const CGFloat gridWidth = self.bounds.size.width - 2*MARGIN;
     const CGFloat gridHeight = self.bounds.size.height - 2*MARGIN;
-//    const CGPoint gridOrigin = NSMakePoint(MARGIN, MARGIN);
+    
+    if ((self.sudokuBoard != nil) && (_selectedRow < 0 || _selectedColumn < 0)) {
+        [self selectNonFixedCell];
+    }
     
     if (_selectedRow >= 0 || _selectedColumn >= 0) {
         [[NSColor lightGrayColor] setFill];
@@ -92,6 +108,39 @@
         }
         x += cellWidth;
         y += cellHeight;
+    }
+    
+    if (self.sudokuBoard != nil) {
+        NSDictionary *textAttributes = @{NSFontAttributeName: [NSFont systemFontOfSize:30.0],
+                                         NSForegroundColorAttributeName : [NSColor blackColor]};
+        NSDictionary *conflictingTextAttributes = @{NSFontAttributeName: [NSFont systemFontOfSize:30.0],
+                                                    NSForegroundColorAttributeName : [NSColor redColor]};
+        NSDictionary *fixedTextAttributes = @{NSFontAttributeName: [NSFont boldSystemFontOfSize:30.0],
+                                              NSForegroundColorAttributeName : [NSColor blackColor]};
+        
+        for (int row = 0; row < 9; row++) {
+            for (int col = 0; col < 9; col++) {
+                const int num = [self.sudokuBoard numberAtRow:row Column:col];
+                if (num > 0) {
+                    const CGRect cellRect = CGRectMake(MARGIN + col*cellWidth, MARGIN + row*cellHeight,
+                                                       cellWidth, cellHeight);
+                    NSString *text = [NSString stringWithFormat:@"%d", num];
+                    NSDictionary *attr;
+                    if ([self.sudokuBoard numberIsFixedAtRow:row Column:col]) {
+                        attr = fixedTextAttributes;
+                    } else if ([self.sudokuBoard isConflictingEntryAtRow:row Column:col]) {
+                        attr = conflictingTextAttributes;
+                    } else {
+                        attr = textAttributes;
+                    }
+                    const NSSize textSize = [text sizeWithAttributes:attr];
+                    const NSRect textRect = NSMakeRect(cellRect.origin.x + (cellRect.size.width - textSize.width)/2,
+                                                       cellRect.origin.y + (cellRect.size.height - textSize.height)/2,
+                                                       textSize.width, textSize.height);
+                    [text drawInRect:textRect withAttributes:attr];
+                } // ignoring pencils (for now)
+            }
+        }
     }
 }
 
