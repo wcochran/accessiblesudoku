@@ -120,11 +120,22 @@
 }
 
 - (NSString *)accessibilityActionDescription:(NSString *)action {
-    return @"not done yet"; // XXXX
+    if ([action isEqualToString:NSAccessibilityPressAction]) {
+        return @"press sudoku cell";
+    } else if ([action isEqualToString:NSAccessibilityDeleteAction]) {
+        return @"delete sudoku cell contents";
+    }
+    return @"Unsupported action";
 }
 
 - (void)accessibilityPerformAction:(NSString *)action {
-    // XXX
+    if ([action isEqualToString:NSAccessibilityPressAction]) {
+        // XXX select cell (if it does not contain a fixed number)
+        // XXX do we post a notification?
+    } else if ([action isEqualToString:NSAccessibilityDeleteAction]) {
+        // XXX delecte cell contents (if there is any and its not a fixed number)
+        // XXX post a notification?
+    }
 }
 
 @end

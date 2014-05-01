@@ -40,6 +40,59 @@
     }
 }
 
+-(BOOL)acceptsFirstResponder {
+    return YES;
+}
+
+-(BOOL)resignFirstResponder {
+    return YES;
+}
+
+-(BOOL)becomeFirstResponder {
+    return YES;
+}
+
+enum {
+    KEY_DELETE_CODE = 0x33,
+    KEY_LEFTARROW_CODE = 0x7B,
+    KEY_RIGHTARROW_CODE = 0x7C,
+    KEY_DOWNARROW_CODE = 0x7D,
+    KEY_UPARROW_CODE = 0x7E,
+};
+
+-(void)keyDown:(NSEvent *)theEvent {
+    unsigned short code = [theEvent keyCode];
+    BOOL eventHandled = NO;
+    switch (code) {
+        case KEY_DELETE_CODE:
+            NSLog(@"delete");
+            eventHandled = YES;
+            break;
+        case KEY_LEFTARROW_CODE:
+            NSLog(@"left");
+            eventHandled = YES;
+            break;
+        case KEY_RIGHTARROW_CODE:
+            NSLog(@"right");
+            eventHandled = YES;
+            break;
+        case KEY_DOWNARROW_CODE:
+            NSLog(@"down");
+            eventHandled = YES;
+            break;
+        case KEY_UPARROW_CODE:
+            NSLog(@"up");
+            eventHandled = YES;
+            break;
+        default:
+            break;
+    }
+    if (!eventHandled) {
+        NSString *charString = [theEvent characters];
+        NSLog(@"%@", charString);
+    }
+}
+
 -(void)selectNonFixedCell {
     for (int row = 8; row >= 0; row--) {
         for (int col = 0; col < 9; col++) {
