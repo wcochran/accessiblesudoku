@@ -708,7 +708,7 @@
             <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="335" y="390" width="525" height="698"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1418"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
             <view key="contentView" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="525" height="698"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -731,11 +731,13 @@
                                 <buttonCell type="square" title="1" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" tag="1" imageScaling="proportionallyDown" inset="2" id="XwY-We-Fvg">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system" size="36"/>
+                                    <string key="keyEquivalent">1</string>
                                     <accessibility description="1" help="Enter 1 into selected sudoku cell."/>
                                 </buttonCell>
                                 <buttonCell type="square" title="6" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" tag="6" imageScaling="proportionallyDown" inset="2" id="HeV-vh-wDA">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system" size="36"/>
+                                    <string key="keyEquivalent">6</string>
                                     <accessibility description="6" help="Enter 6 into selected sudoku cell."/>
                                 </buttonCell>
                             </column>
@@ -743,11 +745,13 @@
                                 <buttonCell type="square" title="2" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" tag="2" imageScaling="proportionallyDown" inset="2" id="Dap-8I-LeH">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system" size="36"/>
+                                    <string key="keyEquivalent">2</string>
                                     <accessibility description="2" help="Enter 2 into selected sudoku cell."/>
                                 </buttonCell>
                                 <buttonCell type="square" title="7" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" tag="7" imageScaling="proportionallyDown" inset="2" id="rk4-gr-RAm">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system" size="36"/>
+                                    <string key="keyEquivalent">7</string>
                                     <accessibility description="7" help="Enter 7 into selected sudoku cell."/>
                                 </buttonCell>
                             </column>
@@ -755,11 +759,13 @@
                                 <buttonCell type="square" title="3" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" tag="3" imageScaling="proportionallyDown" inset="2" id="EQS-uS-eXg">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system" size="36"/>
+                                    <string key="keyEquivalent">3</string>
                                     <accessibility description="3" help="Enter 3 into selected sudoku cell."/>
                                 </buttonCell>
                                 <buttonCell type="square" title="8" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" tag="8" imageScaling="proportionallyDown" inset="2" id="WGK-wL-TuI">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system" size="36"/>
+                                    <string key="keyEquivalent">8</string>
                                     <accessibility description="8" help="Enter 8 into selected sudoku cell."/>
                                 </buttonCell>
                             </column>
@@ -767,11 +773,13 @@
                                 <buttonCell type="square" title="4" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" tag="4" imageScaling="proportionallyDown" inset="2" id="Pep-Zq-bNZ">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system" size="36"/>
+                                    <string key="keyEquivalent">4</string>
                                     <accessibility description="4" help="Enter 4 into selected sudoku cell."/>
                                 </buttonCell>
                                 <buttonCell type="square" title="9" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" tag="9" imageScaling="proportionallyDown" inset="2" id="VCc-Dt-WNj">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system" size="36"/>
+                                    <string key="keyEquivalent">9</string>
                                     <accessibility description="9" help="Enter 9 into selected sudoku cell."/>
                                 </buttonCell>
                             </column>
@@ -779,6 +787,7 @@
                                 <buttonCell type="square" title="5" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" tag="5" imageScaling="proportionallyDown" inset="2" id="2E6-KO-vhn">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system" size="36"/>
+                                    <string key="keyEquivalent">5</string>
                                     <accessibility description="5" help="Enter 5 into selected sudoku cell."/>
                                 </buttonCell>
                                 <buttonCell type="square" title="✎" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" tag="11" imageScaling="proportionallyDown" inset="2" id="XDA-0i-Xbe">
@@ -791,6 +800,9 @@
                                 <buttonCell type="square" title="⌫" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" tag="10" imageScaling="proportionallyDown" inset="2" id="Ira-Lq-LX5">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system" size="36"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+CA
+</string>
                                     <accessibility description="delete" help="Edelete numner in selected sudoku cell."/>
                                 </buttonCell>
                                 <buttonCell type="square" title="♘" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" tag="12" imageScaling="proportionallyDown" inset="2" id="7IZ-8b-pdj">
@@ -811,7 +823,7 @@
             <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="207" width="247" height="322"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1418"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
             <view key="contentView" id="xq4-zb-fNy">
                 <rect key="frame" x="0.0" y="0.0" width="247" height="322"/>
                 <autoresizingMask key="autoresizingMask"/>
