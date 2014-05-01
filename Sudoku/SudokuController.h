@@ -24,4 +24,7 @@
 - (IBAction)cancelOptionWindow:(id)sender;
 - (IBAction)newGame:(id)sender;
 
+-(void)setNumber:(int)num ForRow:(int)row AndColumn:(int)col;
+-(void)deleteNumberAtRow:(int)row AndColumn:(int)col;
+
 @end

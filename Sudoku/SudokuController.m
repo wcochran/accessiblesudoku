@@ -28,6 +28,7 @@
 -(void)awakeFromNib {
     self.sudokuBoard = [[SudokuBoard alloc] init];
     self.sudokuView.sudokuBoard = self.sudokuBoard;
+    self.sudokuView.sudokuController = self;
     [self loadNewGame:0]; // start with new easy puzzle
 }
 
@@ -40,6 +41,21 @@
     return bcell.state == NSOnState;
 }
 
+-(void)setNumber:(int)num ForRow:(int)row AndColumn:(int)col {
+    if ([self.sudokuBoard numberAtRow:row Column:col] == 0) {
+        [self.sudokuBoard setNumber:num AtRow:row Column:col];
+        [self.sudokuView setNeedsDisplay:YES];
+    }  // ignoring pencils (for now) // XXX may want to BEEP if not deleted.
+}
+
+-(void)deleteNumberAtRow:(int)row AndColumn:(int)col {
+    if ([self.sudokuBoard numberAtRow:row Column:col] != 0) {
+        [self.sudokuBoard setNumber:0 AtRow:row Column:col];
+        [self.sudokuBoard clearAllPencilsAtRow:row Column:col];
+        [self.sudokuView setNeedsDisplay:YES];
+    } // ignoring pencils (for now)
+}
+
 - (IBAction)buttonMatrixClicked:(NSMatrix *)sender {
     NSButtonCell *bcell = [sender selectedCell];
     NSLog(@"%d", (int) bcell.tag);
@@ -49,21 +65,16 @@
         const int row = (int) self.sudokuView.selectedRow;
         const int col = (int) self.sudokuView.selectedColumn;
         const int num = (int) bcell.tag;
-        if ([self.sudokuBoard numberAtRow:row Column:col] == 0) {
-            [self.sudokuBoard setNumber:num AtRow:row Column:col];
-            [self.sudokuView setNeedsDisplay:YES];
-        } else if ([self.sudokuBoard numberAtRow:row Column:col] == num) { // toggle => clear
-                [self.sudokuBoard setNumber:0 AtRow:row Column:col];
-                [self.sudokuView setNeedsDisplay:YES];
-        } // ignoring pencils (for now)
+        [self setNumber:num ForRow:row AndColumn:col];
     } else if (bcell.tag == DELETE_TAG) {
         const int row = (int) self.sudokuView.selectedRow;
         const int col = (int) self.sudokuView.selectedColumn;
-        if ([self.sudokuBoard numberAtRow:row Column:col] != 0) {
-            [self.sudokuBoard setNumber:0 AtRow:row Column:col];
-            [self.sudokuBoard clearAllPencilsAtRow:row Column:col];
-            [self.sudokuView setNeedsDisplay:YES];
-        } // ignoring pencils (for now)
+        [self deleteNumberAtRow:row AndColumn:col];
+//        if ([self.sudokuBoard numberAtRow:row Column:col] != 0) {
+//            [self.sudokuBoard setNumber:0 AtRow:row Column:col];
+//            [self.sudokuBoard clearAllPencilsAtRow:row Column:col];
+//            [self.sudokuView setNeedsDisplay:YES];
+//        } // ignoring pencils (for now)
     } else if (bcell.tag == MENU_TAG) {
         [NSApp beginSheet:self.optionWindow modalForWindow:self.mainWindow modalDelegate:nil didEndSelector:NULL contextInfo:NULL];
     }

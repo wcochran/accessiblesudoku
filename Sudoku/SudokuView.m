@@ -9,6 +9,7 @@
 #import "SudokuView.h"
 #import "SudokuBoard.h"
 #import "AccessibilitySudokuCell.h"
+#import "SudokuController.h"
 
 @implementation SudokuView
 
@@ -66,9 +67,10 @@ enum {
     switch (code) {
         case KEY_DELETE_CODE:
             NSLog(@"delete");
+            [self.sudokuController deleteNumberAtRow:(int)self.selectedRow AndColumn:(int)self.selectedColumn];
             eventHandled = YES;
             break;
-        case KEY_LEFTARROW_CODE:
+        case KEY_LEFTARROW_CODE:  // XXX We need to decide how to handled selection and keyboard focus
             NSLog(@"left");
             eventHandled = YES;
             break;
@@ -89,7 +91,10 @@ enum {
     }
     if (!eventHandled) {
         NSString *charString = [theEvent characters];
-        NSLog(@"%@", charString);
+        unichar c = [charString characterAtIndex:0];
+        if (self.selectedRow >= 0 && self.selectedColumn >= 0 && '0' <= c && c <= '9') {
+            [self.sudokuController setNumber:c - '0' ForRow:(int)self.selectedRow AndColumn:(int)self.selectedColumn];
+        }
     }
 }
 
