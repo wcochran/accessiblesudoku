@@ -10,8 +10,11 @@
 
 @class SudokuBoard;
 @class SudokuController;
+@class AccessibilitySudokuCell;
 
 @interface SudokuView : NSView
+
+-(void)selectCellAtRow:(int)row Column:(int)col;
 
 @property (assign, nonatomic) NSInteger selectedRow;
 @property (assign, nonatomic) NSInteger selectedColumn;
@@ -19,11 +22,12 @@
 @property (weak, nonatomic) SudokuBoard *sudokuBoard;  // model (created in controller)
 @property (weak, nonatomic) SudokuController *sudokuController; // set by controller
 
-@property (strong, nonatomic) NSArray *accessibilityCells;
 
 //
 // Methods needed by AccessibilitySudokuCell
 //
+@property (strong, nonatomic) NSArray *accessibilityCells;
+@property (weak, nonatomic) AccessibilitySudokuCell *focusedCell;
 -(CGPoint)screenPositionOfCellAtRow:(NSInteger)row  AndColumn:(NSInteger)col;
 -(CGSize)screenSizeOfCell;
 

@@ -53,6 +53,17 @@
     return YES;
 }
 
+-(void)moveFocusedCellByDeltaX:(int)dx DeltaY:(int)dy {
+    AccessibilitySudokuCell *cell = self.focusedCell;
+    NSInteger row = cell.row + dy;
+    NSInteger col = cell.column + dx;
+    if (row < 0 || row >= 9 || col < 0 || col >= 9)
+        return;
+    self.focusedCell = self.accessibilityCells[row*9 + col];
+    NSAccessibilityPostNotification(self, NSAccessibilityFocusedUIElementChangedNotification);
+    [self setNeedsDisplay:YES];
+}
+
 enum {
     KEY_DELETE_CODE = 0x33,
     KEY_LEFTARROW_CODE = 0x7B,
@@ -66,24 +77,28 @@ enum {
     BOOL eventHandled = NO;
     switch (code) {
         case KEY_DELETE_CODE:
-            NSLog(@"delete");
+            NSLog(@"key code delete");
+            //
+            // XXX
+            // need to set selected cell to the focus cell (send notification?)
+            //
             [self.sudokuController deleteNumberAtRow:(int)self.selectedRow AndColumn:(int)self.selectedColumn];
             eventHandled = YES;
             break;
-        case KEY_LEFTARROW_CODE:  // XXX We need to decide how to handled selection and keyboard focus
-            NSLog(@"left");
+        case KEY_LEFTARROW_CODE:
+            [self moveFocusedCellByDeltaX:-1 DeltaY:0];
             eventHandled = YES;
             break;
         case KEY_RIGHTARROW_CODE:
-            NSLog(@"right");
+            [self moveFocusedCellByDeltaX:+1 DeltaY:0];
             eventHandled = YES;
             break;
         case KEY_DOWNARROW_CODE:
-            NSLog(@"down");
+            [self moveFocusedCellByDeltaX:0 DeltaY:-1];
             eventHandled = YES;
             break;
         case KEY_UPARROW_CODE:
-            NSLog(@"up");
+            [self moveFocusedCellByDeltaX:0 DeltaY:+1];
             eventHandled = YES;
             break;
         default:
@@ -92,6 +107,9 @@ enum {
     if (!eventHandled) {
         NSString *charString = [theEvent characters];
         unichar c = [charString characterAtIndex:0];
+        //
+        // XXX Need to move selected cell the focus cell (send notification?)
+        //
         if (self.selectedRow >= 0 && self.selectedColumn >= 0 && '0' <= c && c <= '9') {
             [self.sudokuController setNumber:c - '0' ForRow:(int)self.selectedRow AndColumn:(int)self.selectedColumn];
         }
@@ -168,6 +186,19 @@ enum {
         y += cellHeight;
     }
     
+    //
+    // Draw focused cell
+    //
+    AccessibilitySudokuCell *cell = self.focusedCell;
+    [NSBezierPath setDefaultLineWidth:2.0];
+    [[NSColor yellowColor] setStroke];
+    [NSBezierPath strokeRect:CGRectMake(MARGIN + cell.column*cellWidth,
+                                        MARGIN + cell.row*cellHeight,
+                                        cellWidth, cellHeight)];
+    
+    //
+    // Fill in numbers of board (if the model has been created).
+    //
     if (self.sudokuBoard != nil) {
         NSDictionary *textAttributes = @{NSFontAttributeName: [NSFont systemFontOfSize:30.0],
                                          NSForegroundColorAttributeName : [NSColor blueColor]};
@@ -202,6 +233,17 @@ enum {
     }
 }
 
+-(void)selectCellAtRow:(int)row Column:(int)col {
+    if (![self.sudokuBoard numberIsFixedAtRow:row Column:col] &&
+        0 <= row && row < 9 && 0 <= col && col < 9) {
+        NSLog(@"selected cell at row=%d, col=%d", row, col);
+        if (row != _selectedRow || col != _selectedColumn) {
+            _selectedColumn = col;
+            _selectedRow = row;
+            [self setNeedsDisplay:YES];
+        }
+    }
+}
 
 -(void)mouseDown:(NSEvent *)theEvent {
     const CGPoint point = [theEvent locationInWindow];
@@ -214,15 +256,7 @@ enum {
                                           (viewPoint.y - MARGIN)*9/gridHeight);
     const int col = (int) floorf(gridPoint.x);
     const int row = (int) floorf(gridPoint.y);
-    if (![self.sudokuBoard numberIsFixedAtRow:row Column:col] &&
-        0 <= row && row < 9 && 0 <= col && col < 9) {
-        NSLog(@"row=%d, col=%d", row, col);
-        if (row != _selectedRow || col != _selectedColumn) {
-            _selectedColumn = col;
-            _selectedRow = row;
-            [self setNeedsDisplay:YES];
-        }
-    }
+    [self selectCellAtRow:row Column:col];
 }
 
 #pragma mark - accessibility
@@ -276,13 +310,19 @@ enum {
                 AccessibilitySudokuCell *cell = [[AccessibilitySudokuCell alloc] initWithRow:r Column:c];
                 cell.sudokuBoard = self.sudokuBoard;
                 cell.parent = self;
-                cell.focused  = NO;
                 [cells addObject:cell];
             }
         }
         _accessibilityCells = [NSArray arrayWithArray:cells];
     }
     return _accessibilityCells;
+}
+
+-(AccessibilitySudokuCell*)focusedCell {
+    if (_focusedCell == nil) {
+        _focusedCell = self.accessibilityCells[0];
+    }
+    return _focusedCell;
 }
 
 -(id)accessibilityAttributeValue:(NSString *)attribute {
@@ -348,7 +388,7 @@ enum {
 }
 
 - (id)accessibilityFocusedUIElement {
-    return self; // XXX
+    return self.focusedCell;
 }
 
 -(CGPoint)screenPositionOfCellAtRow:(NSInteger)row  AndColumn:(NSInteger)col {

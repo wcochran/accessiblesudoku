@@ -54,7 +54,8 @@
     } else if ([attribute isEqualToString:NSAccessibilityEnabledAttribute]) {
         value = @YES;
     } else if ([attribute isEqualToString:NSAccessibilityFocusedAttribute]) {
-        value = [NSNumber numberWithBool:self.focused];
+        const BOOL hasFocus = self.parent.focusedCell == self;
+        value = [NSNumber numberWithBool:hasFocus];
     } else if ([attribute isEqualToString:NSAccessibilityParentAttribute]) {
         value = self.parent;
     } else if ([attribute isEqualToString:NSAccessibilityPositionAttribute]) {
@@ -93,8 +94,10 @@
 - (void)accessibilitySetValue:(id)value
                  forAttribute:(NSString *)attribute {
     if ([attribute isEqualToString:NSAccessibilityFocusedAttribute]) {
-        self.focused = [value boolValue];
-        // XXX
+        if (self.parent.focusedCell != self) {
+            self.parent.focusedCell = self;
+            [self.parent setNeedsDisplay:YES];
+        }
     } else if ([attribute isEqualToString:NSAccessibilitySelectedAttribute]) {
         const BOOL selected = [value boolValue];
         if (selected) {
@@ -130,9 +133,10 @@
 
 - (void)accessibilityPerformAction:(NSString *)action {
     if ([action isEqualToString:NSAccessibilityPressAction]) {
-        // XXX select cell (if it does not contain a fixed number)
-        // XXX do we post a notification?
+        AccessibilitySudokuCell *cell = self.parent.focusedCell;
+        [self.parent selectCellAtRow:(int)cell.row Column:(int)cell.column];
     } else if ([action isEqualToString:NSAccessibilityDeleteAction]) {
+        // moved focused cell to selected cell.
         // XXX delecte cell contents (if there is any and its not a fixed number)
         // XXX post a notification?
     }

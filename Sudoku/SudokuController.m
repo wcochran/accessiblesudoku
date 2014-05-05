@@ -49,7 +49,8 @@
 }
 
 -(void)deleteNumberAtRow:(int)row AndColumn:(int)col {
-    if ([self.sudokuBoard numberAtRow:row Column:col] != 0) {
+    if (![self.sudokuBoard numberIsFixedAtRow:row Column:col] &&
+        [self.sudokuBoard numberAtRow:row Column:col] != 0) {
         [self.sudokuBoard setNumber:0 AtRow:row Column:col];
         [self.sudokuBoard clearAllPencilsAtRow:row Column:col];
         [self.sudokuView setNeedsDisplay:YES];
@@ -70,11 +71,6 @@
         const int row = (int) self.sudokuView.selectedRow;
         const int col = (int) self.sudokuView.selectedColumn;
         [self deleteNumberAtRow:row AndColumn:col];
-//        if ([self.sudokuBoard numberAtRow:row Column:col] != 0) {
-//            [self.sudokuBoard setNumber:0 AtRow:row Column:col];
-//            [self.sudokuBoard clearAllPencilsAtRow:row Column:col];
-//            [self.sudokuView setNeedsDisplay:YES];
-//        } // ignoring pencils (for now)
     } else if (bcell.tag == MENU_TAG) {
         [NSApp beginSheet:self.optionWindow modalForWindow:self.mainWindow modalDelegate:nil didEndSelector:NULL contextInfo:NULL];
     }

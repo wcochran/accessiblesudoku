@@ -18,7 +18,6 @@
 
 @property (assign, readonly, nonatomic) NSInteger row;
 @property (assign, readonly, nonatomic) NSInteger column;
-@property (assign, nonatomic) BOOL focused; // has keyboard focus?
 
 -(id)initWithRow:(NSInteger)row Column:(NSInteger)col;
 
