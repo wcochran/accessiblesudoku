@@ -40,7 +40,8 @@
              NSAccessibilitySizeAttribute,
              NSAccessibilityTopLevelUIElementAttribute,
              NSAccessibilityWindowAttribute,
-             NSAccessibilityHelpAttribute
+             NSAccessibilityHelpAttribute,
+             NSAccessibilityTitleAttribute
              ];
 }
 
@@ -55,7 +56,7 @@
         value = @YES;
     } else if ([attribute isEqualToString:NSAccessibilityFocusedAttribute]) {
         const BOOL hasFocus = self.parent.focusedCell == self;
-        value = [NSNumber numberWithBool:hasFocus];
+        value = @(hasFocus);
     } else if ([attribute isEqualToString:NSAccessibilityParentAttribute]) {
         value = self.parent;
     } else if ([attribute isEqualToString:NSAccessibilityPositionAttribute]) {
@@ -76,7 +77,16 @@
     } else if ([attribute isEqualToString:NSAccessibilityWindowAttribute]) {
         value = self.parent.window;
     } else if ([attribute isEqualToString:NSAccessibilityHelpAttribute]) {
-        value = @"ell of 9x9 Sudoku puzzle";
+        value = @"cell of 9x9 Sudoku puzzle";
+    } else if ([attribute isEqualToString:NSAccessibilityTitleAttribute]) {
+        const int num = [self.sudokuBoard numberAtRow:(int)self.row Column:(int)self.column];
+        if (num == 0) {
+            value = @"empty cell";
+        } else if ([self.sudokuBoard numberIsFixedAtRow:(int)self.row Column:(int)self.column]) {
+            value = [NSString stringWithFormat:@"fixed cell with %d", num];
+        } else {
+            value = [NSString stringWithFormat:@"user cell with %d", num];
+        }
     }
     
     return value;

@@ -57,11 +57,11 @@
     AccessibilitySudokuCell *cell = self.focusedCell;
     NSInteger row = cell.row + dy;
     NSInteger col = cell.column + dx;
-    if (row < 0 || row >= 9 || col < 0 || col >= 9)
-        return;
-    self.focusedCell = self.accessibilityCells[row*9 + col];
-    NSAccessibilityPostNotification(self, NSAccessibilityFocusedUIElementChangedNotification);
-    [self setNeedsDisplay:YES];
+    if (0 <= row && row <= 9 && 0 <= col && col <= 9) {
+        self.focusedCell = self.accessibilityCells[row*9 + col];
+        NSAccessibilityPostNotification(self, NSAccessibilityFocusedUIElementChangedNotification);
+        [self setNeedsDisplay:YES];
+    }
 }
 
 enum {
