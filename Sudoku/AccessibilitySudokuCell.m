@@ -81,12 +81,23 @@
         value = @"cell of 9x9 Sudoku puzzle";
     } else if ([attribute isEqualToString:NSAccessibilityTitleAttribute]) {
         const int num = [self.sudokuBoard numberAtRow:(int)self.row Column:(int)self.column];
+        const int R = 9 - (int) self.row; // announce rows and columns from 1 to 9 (row 1 at top)
+        const int C = (int) self.column + 1;
         if (num == 0) {
-            value = @"empty cell";
+            value = [NSString stringWithFormat:@"empty cell at row %d column %d", R, C];
         } else if ([self.sudokuBoard numberIsFixedAtRow:(int)self.row Column:(int)self.column]) {
-            value = [NSString stringWithFormat:@"fixed cell with %d", num];
+            value = [NSString stringWithFormat:@"fixed cell with %d at row %d column %d", num, R, C];
         } else {
-            value = [NSString stringWithFormat:@"user cell with %d", num];
+            NSString *conflictingMessage = @"";
+            if ([self.sudokuBoard isRowConflictingEntryAtRow:(int)self.row Column:(int)self.column]) {
+                conflictingMessage = [NSString stringWithFormat:@"%d conflicts with another number in row.", num];
+            } else if ([self.sudokuBoard isColumnConflictingEntryAtRow:(int)self.row Column:(int)self.column]) {
+                conflictingMessage = [NSString stringWithFormat:@"%d conflicts with another number in column.", num];
+            } else if ([self.sudokuBoard isBlockConflictingEntryAtRow:(int)self.row Column:(int)self.column]) {
+                conflictingMessage = [NSString stringWithFormat:@"%d conflicts with another number in 3x3 block.", num];
+            }
+
+            value = [NSString stringWithFormat:@"user cell with %d at row %d column %d. %@", num, R, C, conflictingMessage];
         }
     }
     

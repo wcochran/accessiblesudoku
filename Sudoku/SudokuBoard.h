@@ -24,6 +24,9 @@
 -(void)clearPencil:(int)n AtRow:(int)r Column:(int)c;
 -(void)clearAllPencilsAtRow:(int)r Column:(int)c;
 
+-(BOOL)isRowConflictingEntryAtRow:(int)r Column:(int)c;
+-(BOOL)isColumnConflictingEntryAtRow:(int)r Column:(int)c;
+-(BOOL)isBlockConflictingEntryAtRow:(int)r Column:(int)c;
 -(BOOL)isConflictingEntryAtRow:(int)r Column:(int)c;
 
 @end

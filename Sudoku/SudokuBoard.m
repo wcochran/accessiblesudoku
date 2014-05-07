@@ -102,6 +102,58 @@ typedef struct {
     cells[r][c].pencilMask = 0;
 }
 
+-(BOOL)isRowConflictingEntryAtRow:(int)r Column:(int)c {
+    if (cells[r][c].isFixed)
+        return NO;
+    const int number = cells[r][c].number;
+    if (number == 0)
+        return NO;
+    for (int col = 0; col < 9; col++) {  // scan row r
+        if (col == c) continue;
+        const int n = cells[r][col].number;
+        if (n == number)
+            return YES;
+    }
+    return NO;
+}
+
+-(BOOL)isColumnConflictingEntryAtRow:(int)r Column:(int)c {
+    if (cells[r][c].isFixed)
+        return NO;
+    const int number = cells[r][c].number;
+    if (number == 0)
+        return NO;
+    for (int row = 0; row < 9; row++) {  // scan col c
+        if (row == r) continue;
+        const int n = cells[row][c].number;
+        if (n == number)
+            return YES;
+    }
+    return NO;
+}
+
+-(BOOL)isBlockConflictingEntryAtRow:(int)r Column:(int)c {
+    if (cells[r][c].isFixed)
+        return NO;
+    const int number = cells[r][c].number;
+    if (number == 0)
+        return NO;
+    const int blockRow = (r/3)*3;  // scan 3x3 block
+    const int blockCol = (c/3)*3;
+    for (int j = 0; j < 3; j++) {
+        for (int i = 0; i < 3; i++) {
+            const int row = blockRow + j;
+            const int col = blockCol + i;
+            if (row == r && col == c)
+                continue;
+            const int n = cells[row][col].number;
+            if (n == number)
+                return YES;
+        }
+    }
+    return NO;
+}
+
 -(BOOL)isConflictingEntryAtRow:(int)r Column:(int)c {
     if (cells[r][c].isFixed)
         return NO;

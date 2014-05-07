@@ -57,7 +57,7 @@
     AccessibilitySudokuCell *cell = self.focusedCell;
     NSInteger row = cell.row + dy;
     NSInteger col = cell.column + dx;
-    if (0 <= row && row <= 9 && 0 <= col && col <= 9) {
+    if (0 <= row && row < 9 && 0 <= col && col < 9) {
         self.focusedCell = self.accessibilityCells[row*9 + col];
         NSAccessibilityPostNotification(self, NSAccessibilityFocusedUIElementChangedNotification);
         [self setNeedsDisplay:YES];
@@ -80,15 +80,24 @@ enum {
         case KEY_DELETE_CODE:
             cell = self.focusedCell;
             if ([self selectUnlessFixedCellAtRow:(int)cell.row Column:(int)cell.column]) {
-                [self.sudokuController deleteNumberAtRow:(int)self.selectedRow AndColumn:(int)self.selectedColumn];
-                eventHandled = YES;
-                NSDictionary *announcementInfo = @{NSAccessibilityAnnouncementKey : @"Deleted",
-                                                   NSAccessibilityPriorityKey : @(NSAccessibilityPriorityHigh)};
-                NSAccessibilityPostNotificationWithUserInfo(NSApp, NSAccessibilityAnnouncementRequestedNotification, announcementInfo);
+                const int num = [self.sudokuBoard numberAtRow:(int)cell.row Column:(int)cell.column];
+                if (num == 0) {
+                    NSDictionary *announcementInfo =
+                    @{NSAccessibilityAnnouncementKey : @"cell already empty",
+                      NSAccessibilityPriorityKey : @(NSAccessibilityPriorityHigh)};
+                    NSAccessibilityPostNotificationWithUserInfo(self, NSAccessibilityAnnouncementRequestedNotification, announcementInfo);
+                } else {
+                    [self.sudokuController deleteNumberAtRow:(int)self.selectedRow AndColumn:(int)self.selectedColumn];
+                    eventHandled = YES;
+                    NSDictionary *announcementInfo =
+                    @{NSAccessibilityAnnouncementKey : [NSString stringWithFormat: @"%d deleted", num],
+                      NSAccessibilityPriorityKey : @(NSAccessibilityPriorityHigh)};
+                    NSAccessibilityPostNotificationWithUserInfo(self, NSAccessibilityAnnouncementRequestedNotification, announcementInfo);
+                }
             } else {
                 NSDictionary *announcementInfo = @{NSAccessibilityAnnouncementKey : @"Can not delete",
                                                    NSAccessibilityPriorityKey : @(NSAccessibilityPriorityHigh)};
-                NSAccessibilityPostNotificationWithUserInfo(NSApp, NSAccessibilityAnnouncementRequestedNotification, announcementInfo);
+                NSAccessibilityPostNotificationWithUserInfo(self, NSAccessibilityAnnouncementRequestedNotification, announcementInfo);
             }
             break;
         case KEY_LEFTARROW_CODE:
@@ -118,19 +127,30 @@ enum {
             if ([self selectUnlessFixedCellAtRow:(int)cell.row Column:(int)cell.column]) {
                 const int n = [self.sudokuBoard numberAtRow:(int)cell.row Column:(int)cell.column];
                 if (n == 0) {
-                    [self.sudokuController setNumber:c - '0' ForRow:(int)self.selectedRow AndColumn:(int)self.selectedColumn];
-                    NSDictionary *announcementInfo = @{NSAccessibilityAnnouncementKey : @"Number entered",
-                                                       NSAccessibilityPriorityKey : @(NSAccessibilityPriorityHigh)};
-                    NSAccessibilityPostNotificationWithUserInfo(NSApp, NSAccessibilityAnnouncementRequestedNotification, announcementInfo);
+                    const int num = c - '0';
+                    [self.sudokuController setNumber:num ForRow:(int)self.selectedRow AndColumn:(int)self.selectedColumn];
+                    NSString *conflictingMessage = @"";
+                    if ([self.sudokuBoard isRowConflictingEntryAtRow:(int)cell.row Column:(int)cell.column]) {
+                        conflictingMessage = [NSString stringWithFormat:@"%d conflicts with another number in row.", num];
+                    } else if ([self.sudokuBoard isColumnConflictingEntryAtRow:(int)cell.row Column:(int)cell.column]) {
+                        conflictingMessage = [NSString stringWithFormat:@"%d conflicts with another number in column.", num];
+                    } else if ([self.sudokuBoard isBlockConflictingEntryAtRow:(int)cell.row Column:(int)cell.column]) {
+                        conflictingMessage = [NSString stringWithFormat:@"%d conflicts with another number in 3x3 block.", num];
+                    }
+                    NSDictionary *announcementInfo =
+                    @{NSAccessibilityAnnouncementKey : [NSString stringWithFormat:@"%@ %d entered", conflictingMessage, num],
+                      NSAccessibilityPriorityKey : @(NSAccessibilityPriorityHigh)};
+                    NSAccessibilityPostNotificationWithUserInfo(self, NSAccessibilityAnnouncementRequestedNotification, announcementInfo);
+                    
                 } else {
                     NSDictionary *announcementInfo = @{NSAccessibilityAnnouncementKey : @"Can not overwrite previous value",
                                                        NSAccessibilityPriorityKey : @(NSAccessibilityPriorityHigh)};
-                    NSAccessibilityPostNotificationWithUserInfo(NSApp, NSAccessibilityAnnouncementRequestedNotification, announcementInfo);
+                    NSAccessibilityPostNotificationWithUserInfo(self, NSAccessibilityAnnouncementRequestedNotification, announcementInfo);
                 }
             } else {
                 NSDictionary *announcementInfo = @{NSAccessibilityAnnouncementKey : @"Can not overwrite fixed cell",
                                                    NSAccessibilityPriorityKey : @(NSAccessibilityPriorityHigh)};
-                NSAccessibilityPostNotificationWithUserInfo(NSApp, NSAccessibilityAnnouncementRequestedNotification, announcementInfo);
+                NSAccessibilityPostNotificationWithUserInfo(self, NSAccessibilityAnnouncementRequestedNotification, announcementInfo);
             }
         }
         
@@ -344,7 +364,7 @@ enum {
 
 -(AccessibilitySudokuCell*)focusedCell {
     if (_focusedCell == nil) {
-        _focusedCell = self.accessibilityCells[0];
+        _focusedCell = self.accessibilityCells[8*9]; // top row, left column
     }
     return _focusedCell;
 }
