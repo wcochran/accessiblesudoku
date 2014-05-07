@@ -75,15 +75,21 @@ enum {
 -(void)keyDown:(NSEvent *)theEvent {
     unsigned short code = [theEvent keyCode];
     BOOL eventHandled = NO;
+    AccessibilitySudokuCell *cell;
     switch (code) {
         case KEY_DELETE_CODE:
-            NSLog(@"key code delete");
-            //
-            // XXX
-            // need to set selected cell to the focus cell (send notification?)
-            //
-            [self.sudokuController deleteNumberAtRow:(int)self.selectedRow AndColumn:(int)self.selectedColumn];
-            eventHandled = YES;
+            cell = self.focusedCell;
+            if ([self selectUnlessFixedCellAtRow:(int)cell.row Column:(int)cell.column]) {
+                [self.sudokuController deleteNumberAtRow:(int)self.selectedRow AndColumn:(int)self.selectedColumn];
+                eventHandled = YES;
+                NSDictionary *announcementInfo = @{NSAccessibilityAnnouncementKey : @"Deleted",
+                                                   NSAccessibilityPriorityKey : @(NSAccessibilityPriorityHigh)};
+                NSAccessibilityPostNotificationWithUserInfo(NSApp, NSAccessibilityAnnouncementRequestedNotification, announcementInfo);
+            } else {
+                NSDictionary *announcementInfo = @{NSAccessibilityAnnouncementKey : @"Can not delete",
+                                                   NSAccessibilityPriorityKey : @(NSAccessibilityPriorityHigh)};
+                NSAccessibilityPostNotificationWithUserInfo(NSApp, NSAccessibilityAnnouncementRequestedNotification, announcementInfo);
+            }
             break;
         case KEY_LEFTARROW_CODE:
             [self moveFocusedCellByDeltaX:-1 DeltaY:0];
@@ -107,12 +113,27 @@ enum {
     if (!eventHandled) {
         NSString *charString = [theEvent characters];
         unichar c = [charString characterAtIndex:0];
-        //
-        // XXX Need to move selected cell the focus cell (send notification?)
-        //
-        if (self.selectedRow >= 0 && self.selectedColumn >= 0 && '0' <= c && c <= '9') {
-            [self.sudokuController setNumber:c - '0' ForRow:(int)self.selectedRow AndColumn:(int)self.selectedColumn];
+        if ('0' <= c && c <= '9') {
+            cell = self.focusedCell;
+            if ([self selectUnlessFixedCellAtRow:(int)cell.row Column:(int)cell.column]) {
+                const int n = [self.sudokuBoard numberAtRow:(int)cell.row Column:(int)cell.column];
+                if (n == 0) {
+                    [self.sudokuController setNumber:c - '0' ForRow:(int)self.selectedRow AndColumn:(int)self.selectedColumn];
+                    NSDictionary *announcementInfo = @{NSAccessibilityAnnouncementKey : @"Number entered",
+                                                       NSAccessibilityPriorityKey : @(NSAccessibilityPriorityHigh)};
+                    NSAccessibilityPostNotificationWithUserInfo(NSApp, NSAccessibilityAnnouncementRequestedNotification, announcementInfo);
+                } else {
+                    NSDictionary *announcementInfo = @{NSAccessibilityAnnouncementKey : @"Can not overwrite previous value",
+                                                       NSAccessibilityPriorityKey : @(NSAccessibilityPriorityHigh)};
+                    NSAccessibilityPostNotificationWithUserInfo(NSApp, NSAccessibilityAnnouncementRequestedNotification, announcementInfo);
+                }
+            } else {
+                NSDictionary *announcementInfo = @{NSAccessibilityAnnouncementKey : @"Can not overwrite fixed cell",
+                                                   NSAccessibilityPriorityKey : @(NSAccessibilityPriorityHigh)};
+                NSAccessibilityPostNotificationWithUserInfo(NSApp, NSAccessibilityAnnouncementRequestedNotification, announcementInfo);
+            }
         }
+        
     }
 }
 
@@ -233,16 +254,19 @@ enum {
     }
 }
 
--(void)selectCellAtRow:(int)row Column:(int)col {
+-(BOOL)selectUnlessFixedCellAtRow:(int)row Column:(int)col {
     if (![self.sudokuBoard numberIsFixedAtRow:row Column:col] &&
         0 <= row && row < 9 && 0 <= col && col < 9) {
         NSLog(@"selected cell at row=%d, col=%d", row, col);
         if (row != _selectedRow || col != _selectedColumn) {
             _selectedColumn = col;
             _selectedRow = row;
+            NSAccessibilityPostNotification(self,NSAccessibilitySelectedCellsChangedNotification);
             [self setNeedsDisplay:YES];
         }
+        return YES;
     }
+    return NO;
 }
 
 -(void)mouseDown:(NSEvent *)theEvent {
@@ -256,7 +280,7 @@ enum {
                                           (viewPoint.y - MARGIN)*9/gridHeight);
     const int col = (int) floorf(gridPoint.x);
     const int row = (int) floorf(gridPoint.y);
-    [self selectCellAtRow:row Column:col];
+    [self selectUnlessFixedCellAtRow:row Column:col];
 }
 
 #pragma mark - accessibility

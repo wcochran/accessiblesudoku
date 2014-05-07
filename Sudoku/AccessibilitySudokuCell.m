@@ -7,6 +7,7 @@
 //
 
 #import "AccessibilitySudokuCell.h"
+#import "SudokuController.h"
 #import "SudokuBoard.h"
 #import "SudokuView.h"
 
@@ -144,11 +145,19 @@
 - (void)accessibilityPerformAction:(NSString *)action {
     if ([action isEqualToString:NSAccessibilityPressAction]) {
         AccessibilitySudokuCell *cell = self.parent.focusedCell;
-        [self.parent selectCellAtRow:(int)cell.row Column:(int)cell.column];
+        [self.parent selectUnlessFixedCellAtRow:(int)cell.row Column:(int)cell.column];
     } else if ([action isEqualToString:NSAccessibilityDeleteAction]) {
-        // moved focused cell to selected cell.
-        // XXX delecte cell contents (if there is any and its not a fixed number)
-        // XXX post a notification?
+        if ([self.parent selectUnlessFixedCellAtRow:(int)self.row Column:(int)self.column]) {
+            [self.parent.sudokuController deleteNumberAtRow:(int)self.row AndColumn:(int)self.column];
+            NSDictionary *announcementInfo = @{NSAccessibilityAnnouncementKey : @"Deleted",
+                                               NSAccessibilityPriorityKey : @(NSAccessibilityPriorityHigh)};
+            NSAccessibilityPostNotificationWithUserInfo(NSApp, NSAccessibilityAnnouncementRequestedNotification, announcementInfo);
+        } else {
+            NSDictionary *announcementInfo = @{NSAccessibilityAnnouncementKey : @"Can not delete",
+                                               NSAccessibilityPriorityKey : @(NSAccessibilityPriorityHigh)};
+            NSAccessibilityPostNotificationWithUserInfo(NSApp, NSAccessibilityAnnouncementRequestedNotification, announcementInfo);
+        }
+
     }
 }
 

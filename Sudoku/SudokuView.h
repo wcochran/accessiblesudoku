@@ -14,7 +14,7 @@
 
 @interface SudokuView : NSView
 
--(void)selectCellAtRow:(int)row Column:(int)col;
+-(BOOL)selectUnlessFixedCellAtRow:(int)row Column:(int)col;
 
 @property (assign, nonatomic) NSInteger selectedRow;
 @property (assign, nonatomic) NSInteger selectedColumn;
